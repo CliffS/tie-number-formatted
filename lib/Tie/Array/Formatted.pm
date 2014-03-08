@@ -1,4 +1,4 @@
-package Tie::Number::Formatted;
+package Tie::Array::Formatted;
 
 use 5.14.0;
 use strict;
@@ -7,21 +7,15 @@ use utf8;
 
 use version 0.77; our $VERSION = qv('v0.0.1');
 
+use Tie::Array;
 use Scalar::Util qw(looks_like_number);
 
-use Number::Format;
-#use Data::Dumper;
+use parent q(Tie::StdArray);
+
+use Data::Dumper;
 use Carp;
 
 use enum qw{ false true };
-
-use overload
-    '""' => \&stringify,
-    '0+' => \&numeric,
-    '+' => \&plus,
-    '-' => \&minus,
-    fallback => 1
-    ;
 
 =head1 NAME
 
@@ -33,84 +27,113 @@ Version 0.0.1
 
 =cut
 
-sub defaults
+sub format($)
 {
-    my $class = shift;
-    return (
-	currency => true,
-	symbol	=> '£ ',
-	precision => 2,
-    );
-}
-
-sub new
-{
-    my $class = shift;
+    my $self = shift;
     my $value = shift;
-    my $self = $class->TIESCALAR(@_);
-    $self->{value} = $value;
+    if (looks_like_a_number $value)
+    {
+	tie my $num, 'Tie::Number::Formatted', $self->{options};
+	$num = $value;
+	return $num;
+    }
+    else {
+	return $value;
+    }
 }
 
-sub TIESCALAR
+sub TIEARRAY
 {
     my $class = shift;
-    my $self = {};
     my %options = @_ == 1 ? %{$_[0]} : @_;
-    %options = ($class->defaults, %options);
-    $self->{value} = 0;
-    $self->{options} = \%options;
+    %options = (Tie::Number::Formatted->defaults, %defaults);
+    my $self = {
+	array => [],
+	options => \%options,
+    };
     bless $self, $class;
-}
-
-sub FETCH
-{
-    shift;
 }
 
 sub STORE
 {
     my $self = shift;
-    my $val = shift;
-    carp qq(Argument "$val" isn't numeric) unless looks_like_number $val;
-    no warnings 'numeric';
-    $self->{value} = $val + 0;
+    my ($index, $value) = @_;
+    $self->{array}[$index] = $self->format($value);
 }
 
-sub numeric
+sub FETCHSIZE
 {
     my $self = shift;
-    return $self->{value};
+    my $array = $self->{array};
+    return scalar @$array;
 }
 
-sub stringify
+sub STORESIZE
 {
     my $self = shift;
-    my $val = $self->{value};
-    my $format = new Number::Format(
-	-neg_format  => '(x)',
-    );
-    return $format->format_price(
-	abs $self->{value},
-	$self->{options}{precision},
-	$self->{options}{symbol},
-    );
+    my $size = shift;
+    my $array = $self->{array};
+    $#$array = $size;
 }
 
-sub plus
+sub FETCH
 {
-    my ($self, $other, $swap) = @_;
-    my $result = $self->{value} + $other;
-    my $class = ref $self;
-    return $class->new($result, $self->{options});
+    my $self = shift;
+    my $index = shift;
+    return $self->{array}[$index];
 }
 
-sub minus
+sub CLEAR
 {
-    my ($self, $other, $swap) = @_;
-    my $result = $self->{value} - $other;
-    $result = -$result if $swap;
-    my $class = ref $self;
-    return $class->new($result, $self->{options});
+    my $self = shift;
+    my $array = $self->{array};
+    $array = [];
+}
+
+sub POP 
+{
+    my $self = shift;
+    my $array = $self->{array};
+    pop @$array;
+}
+
+sub PUSH
+{
+    my $self = shift;
+    my $value = shift;
+    my $array = $self->{array};
+    push @$array, $self->format($value);
+}
+
+sub SHIFT
+{
+    my $self = shift;
+    my $array = $self->{array};
+    shift @$array;
+}
+
+sub UNSHIFT
+{
+    my $self = shift;
+    my $value = shift;
+    my $array = $self->{array};
+    unshift @$array, $self->format($value);
+}
+
+sub EXISTS
+{
+    my $self = shift;
+    my $index = shift;
+    my $array = $self->{array};
+    exists $array->[$index];
+}
+
+sub DELETE
+{
+    my $self = shift;
+    my $index = shift;
+    my $array = $self->{array};
+    delete $array->[$index];
 }
 
 
@@ -234,7 +257,6 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 =cut
-
 
 1; # End of Tie::Number::Formatted
 
