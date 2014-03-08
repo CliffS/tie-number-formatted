@@ -1,0 +1,45 @@
+{
+   "abstract" : "Numbers that stringify formatted",
+   "author" : [
+      "Cliff Stanford <cpan@may.be>"
+   ],
+   "dynamic_config" : 1,
+   "generated_by" : "Module::Build version 0.4003, CPAN::Meta::Converter version 2.131560",
+   "license" : [
+      "artistic_2"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : "2"
+   },
+   "name" : "Tie-Number-Formatted",
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "Test::More" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "Module::Build" : "0"
+         }
+      }
+   },
+   "provides" : {
+      "Tie::Array::Formatted" : {
+         "file" : "lib/Tie/Array/Formatted.pm",
+         "version" : "v0.0.1"
+      },
+      "Tie::Number::Formatted" : {
+         "file" : "lib/Tie/Number/Formatted.pm",
+         "version" : "v0.0.1"
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "license" : [
+         "http://www.perlfoundation.org/artistic_license_2_0"
+      ]
+   },
+   "version" : "v0.0.1"
+}

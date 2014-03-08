@@ -1,0 +1,25 @@
+---
+abstract: 'Numbers that stringify formatted'
+author:
+  - 'Cliff Stanford <cpan@may.be>'
+build_requires:
+  Test::More: 0
+configure_requires:
+  Module::Build: 0
+dynamic_config: 1
+generated_by: 'Module::Build version 0.4003, CPAN::Meta::Converter version 2.131560'
+license: artistic_2
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Tie-Number-Formatted
+provides:
+  Tie::Array::Formatted:
+    file: lib/Tie/Array/Formatted.pm
+    version: v0.0.1
+  Tie::Number::Formatted:
+    file: lib/Tie/Number/Formatted.pm
+    version: v0.0.1
+resources:
+  license: http://www.perlfoundation.org/artistic_license_2_0
+version: v0.0.1
