@@ -189,9 +189,6 @@ You can find documentation for this module with the perldoc command.
 
     perldoc Tie::Number::Formatted
 
-# =head1 ACKNOWLEDGEMENTS
-
-
 =head1 LICENSE AND COPYRIGHT
 
 Copyright 2014 Cliff Stanford.
