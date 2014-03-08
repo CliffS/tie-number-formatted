@@ -1,5 +1,7 @@
 Changes
 lib/Tie/Number/Formatted.pm
+lib/Tie/Array/Formatted.pm
+lib/Tie/Hash/Formatted.pm
 Makefile.PL
 MANIFEST			This list of files
 README
