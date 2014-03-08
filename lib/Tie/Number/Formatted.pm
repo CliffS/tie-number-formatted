@@ -23,6 +23,8 @@ use overload
     fallback => 1
     ;
 
+=encoding UTF-8
+
 =head1 NAME
 
 Tie::Number::Formatted - Numbers that stringify formatted
@@ -50,6 +52,63 @@ sub new
     my $self = $class->TIESCALAR(@_);
     $self->{value} = $value;
 }
+
+=head1 SYNOPSIS
+
+    use Tie::Number::Formatted;
+
+    tie my $number, 'Tie::Number::Formatted';
+    $number = 12345.67;
+    say $number;    # prints "£ 12,345.67"
+    $number /= 100;
+    say $number;    # prints "£ 123.46"
+
+    tie my $number, 'Tie::Number::Formatted', (
+	symbol    => '$'    # default is '£ '
+	precision => 4	    # default is 2
+    );
+    $number = 12345.67;
+    say $number;    # prints "$12,345.6700"
+    
+
+=head1 EXPORT
+
+Nothing is exported.
+
+=head1 DEPENDENCIES
+
+Perl version 5.14.0 or higher
+L<Number::Format> to do the actual formatting
+L<Scalar::Util> for looks_like_number
+L<Carp> for warnings
+
+=head1 SYNTAX
+
+=head2 Tying a scalar
+
+This ties a scalar in such a way that normal numeric operations
+work on it but that it prints according to the required format.
+
+=head2 Beware
+
+If a tied scalar is assigned to another scalar, the new scalar
+will still have the same magic.  However it will not be tied so
+reassigning it will break the magic.
+
+For example:
+
+    tie my $number, 'Tie::Number::Formatted';
+    $number = 123.45;
+    my $other = number;
+    say $number;    # "£ 123.45"
+    $number = 100;
+    say $number;    # "£ 100.00"
+    say $other;	    # "£ 123.45"
+    $other = 100;
+    say $other;	    # "100"
+    
+
+=cut
 
 sub TIESCALAR
 {
@@ -86,9 +145,7 @@ sub stringify
 {
     my $self = shift;
     my $val = $self->{value};
-    my $format = new Number::Format(
-	-neg_format  => '(x)',
-    );
+    my $format = new Number::Format;
     return $format->format_price(
 	abs $self->{value},
 	$self->{options}{precision},
@@ -113,51 +170,18 @@ sub minus
     return $class->new($result, $self->{options});
 }
 
-
-=head1 SYNOPSIS
-
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
-    use Tie::Number::Formatted;
-
-    my $foo = Tie::Number::Formatted->new();
-    ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 SUBROUTINES/METHODS
-
-=head2 function1
-
-=cut
-
-sub function1 {
-}
-
-=head2 function2
-
-=cut
-
-sub function2 {
-}
-
 =head1 AUTHOR
 
-Cliff Stanford, C<< <cpan at may.be> >>
+Cliff Stanford, C<< <cpan@may.be> >>
 
 =head1 BUGS
 
-Please report any bugs or feature requests to C<bug-tie-number-formatted at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tie-Number-Formatted>.  I will be notified, and then you'll
+Please report any bugs or feature requests to
+C<bug-tie-number-formatted at rt.cpan.org>, or through
+the web interface at
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tie-Number-Formatted>.
+I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
-
-
-
 
 =head1 SUPPORT
 
@@ -165,31 +189,7 @@ You can find documentation for this module with the perldoc command.
 
     perldoc Tie::Number::Formatted
 
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker (report bugs here)
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Tie-Number-Formatted>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Tie-Number-Formatted>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/Tie-Number-Formatted>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/Tie-Number-Formatted/>
-
-=back
-
-
-=head1 ACKNOWLEDGEMENTS
+# =head1 ACKNOWLEDGEMENTS
 
 
 =head1 LICENSE AND COPYRIGHT
