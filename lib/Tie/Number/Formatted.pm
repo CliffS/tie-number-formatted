@@ -87,10 +87,29 @@ L<Carp> for warnings
 
 =head1 SYNTAX
 
-=head2 Tying a scalar
-
 This ties a scalar in such a way that normal numeric operations
 work on it but that it prints according to the required format.
+
+=head2 Tying a scalar
+
+    tie my $number, 'Tie::Number::Formatted', @options;
+
+=head2 Options
+
+=over
+
+=item symbol
+
+This is the symbol for your currency.  It defaults to C<"£ ">
+but can be set, for example to C<"USD "> or C<"$ ">.  If you don't want
+the extra space, simply set it to C<"£"> or C<"$">.
+
+=item precision
+
+This is the number of digits after the decimal point.  If you set this
+to C<0>, it will not print the decimal point.
+
+=back
 
 =head2 Beware
 

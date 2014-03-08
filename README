@@ -33,9 +33,21 @@ DEPENDENCIES
     Carp for warnings
 
 SYNTAX
-  Tying a scalar
     This ties a scalar in such a way that normal numeric operations work on
     it but that it prints according to the required format.
+
+  Tying a scalar
+        tie my $number, 'Tie::Number::Formatted', @options;
+
+  Options
+    symbol
+        This is the symbol for your currency. It defaults to "£ " but can be
+        set, for example to "USD " or "$ ". If you don't want the extra
+        space, simply set it to "£" or "$".
+
+    precision
+        This is the number of digits after the decimal point. If you set
+        this to 0, it will not print the decimal point.
 
   Beware
     If a tied scalar is assigned to another scalar, the new scalar will
@@ -53,6 +65,116 @@ SYNTAX
         say $other;     # "£ 123.45"
         $other = 100;
         say $other;     # "100"
+
+AUTHOR
+    Cliff Stanford, "<cpan@may.be>"
+
+BUGS
+    Please report any bugs or feature requests to "bug-tie-number-formatted
+    at rt.cpan.org", or through the web interface at
+    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tie-Number-Formatted>. I
+    will be notified, and then you'll automatically be notified of progress
+    on your bug as I make changes.
+
+SUPPORT
+    You can find documentation for this module with the perldoc command.
+
+        perldoc Tie::Number::Formatted
+
+LICENSE AND COPYRIGHT
+    Copyright 2014 Cliff Stanford.
+
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+---------------------------------------------------------------------------
+
+NAME
+    Tie::Number::Formatted - An array of self-formatting numbers
+
+VERSION
+    Version 0.0.1
+
+SYNOPSYS
+        use Tie::Array::Formatted;
+
+        tie my @array, 'Tie::Array::Formatted';
+        push @array, (100, 123, 123.456);
+        print "@array\n";   # prints "Â£ 100.00 Â£ 123.00 Â£ 123.45"
+
+DEPENDENCIES
+    Perl version 5.14.0 or higher
+
+    Tie::Number::Formatted
+
+    Scalar::Util for looks_like_number
+
+SYNTAX
+    This ties an array so that all values are automatically tied to
+    Tie::Number::Formatted if they look like numbers. Otherwise they are
+    simply stored as is.
+
+  Tying an array
+        tie my @array, 'Tie::Array::Formatted', @options;
+
+  Options
+    For all options, see Tie::Number::Formatted. All numbers in the array
+    will be formatted according to these options.
+
+AUTHOR
+    Cliff Stanford, "<cpan@may.be>"
+
+BUGS
+    Please report any bugs or feature requests to "bug-tie-number-formatted
+    at rt.cpan.org", or through the web interface at
+    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tie-Number-Formatted>. I
+    will be notified, and then you'll automatically be notified of progress
+    on your bug as I make changes.
+
+SUPPORT
+    You can find documentation for this module with the perldoc command.
+
+        perldoc Tie::Number::Formatted
+
+LICENSE AND COPYRIGHT
+    Copyright 2014 Cliff Stanford.
+
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+---------------------------------------------------------------------------
+
+NAME
+    Tie::Hash::Formatted - A hash containing self-formatting numbers
+
+VERSION
+    Version 0.0.1
+
+SYNOPSYS
+        use Tie::Hash::Formatted;
+
+        tie my %hash, 'Tie::Hash::Formatted';
+        $hash{one} = 1;
+        say $hash{one};     # prints "Â£ 1.00"
+
+DEPENDENCIES
+    Perl version 5.14.0 or higher
+
+    Tie::Number::Formatted
+
+    Scalar::Util for looks_like_number
+
+SYNTAX
+    This ties a hash so that the keys are normal but the values are
+    automatically tied to Tie::Number::Formatted if they look like numbers.
+    Otherwise they are simply stored as is.
+
+  Tying a hash
+        tie my %hash, 'Tie::Hash::Formatted', @options;
+
+  Options
+    For all options, see Tie::Number::Formatted. All numbers in the hash
+    will be formatted according to these options.
 
 AUTHOR
     Cliff Stanford, "<cpan@may.be>"
