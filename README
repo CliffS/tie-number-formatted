@@ -64,8 +64,6 @@ SUPPORT
 
         perldoc Tie::Number::Formatted
 
-    # =head1 ACKNOWLEDGEMENTS
-
 LICENSE AND COPYRIGHT
     Copyright 2014 Cliff Stanford.
 
