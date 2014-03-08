@@ -24,8 +24,13 @@ EXPORT
     Nothing is exported.
 
 DEPENDENCIES
-    Perl version 5.14.0 or higher Number::Format to do the actual formatting
-    Scalar::Util for looks_like_number Carp for warnings
+    Perl version 5.14.0 or higher
+
+    Number::Format to do the actual formatting
+
+    Scalar::Util for looks_like_number
+
+    Carp for warnings
 
 SYNTAX
   Tying a scalar

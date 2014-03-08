@@ -78,8 +78,11 @@ Nothing is exported.
 =head1 DEPENDENCIES
 
 Perl version 5.14.0 or higher
+
 L<Number::Format> to do the actual formatting
+
 L<Scalar::Util> for looks_like_number
+
 L<Carp> for warnings
 
 =head1 SYNTAX
