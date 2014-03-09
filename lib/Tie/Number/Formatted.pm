@@ -178,7 +178,7 @@ sub stringify
 sub plus
 {
     my ($self, $other, $swap) = @_;
-    my $result = $self->{value} + $other;
+    my $result = $self->{value} + ($other // 0);
     my $class = ref $self;
     return $class->new($result, $self->{options});
 }
@@ -186,7 +186,7 @@ sub plus
 sub minus
 {
     my ($self, $other, $swap) = @_;
-    my $result = $self->{value} - $other;
+    my $result = $self->{value} - ($other // 0);
     $result = -$result if $swap;
     my $class = ref $self;
     return $class->new($result, $self->{options});
