@@ -1,4 +1,4 @@
-package Tie::Array::Formatted;
+package Tie::Hash::Formatted;
 
 use 5.14.0;
 use strict;
@@ -8,9 +8,10 @@ use utf8;
 use version 0.77; our $VERSION = qv('v0.0.1');
 
 use Tie::Hash;
-use Scalar::Util qw(looks_like_number);
+use Scalar::Util qw(looks_like_number blessed);
+use Tie::Number::Formatted;
 
-use parent q(Tie::ExtraHash);
+our @ISA = qw( Tie::ExtraHash );
 
 use Data::Dumper;
 use Carp;
@@ -31,7 +32,11 @@ sub format($)
 {
     my $self = shift;
     my $value = shift;
-    if (looks_like_a_number $value)
+    if (blessed $value && $value->isa('Tie::Number::Formatted'))
+    {
+	return $value;
+    }
+    elsif (looks_like_number $value)
     {
 	tie my $num, 'Tie::Number::Formatted', $self->[1];
 	$num = $value;
@@ -56,7 +61,7 @@ Perl version 5.14.0 or higher
 
 L<Tie::Number::Formatted>
 
-L<Scalar::Util> for looks_like_number
+L<Scalar::Util> for looks_like_number and blessed
 
 =head1 SYNTAX
 
@@ -70,8 +75,21 @@ look like numbers.  Otherwise they are simply stored as is.
 
 =head2 Options
 
-For all options, see L<Tie::Number::Formatted>.  All numbers in
+For all Number options, see L<Tie::Number::Formatted>.  All numbers in
 the hash will be formatted according to these options.
+
+There is an additional option:
+
+=over
+
+=item exclude
+
+    exclude => [ qw(no_format nor_me) ]
+
+Exclude should be passed a pointer to an array of keys that should
+not be formatted, even if numeric values are assigned.
+
+=back
 
 =cut
 
@@ -79,15 +97,18 @@ sub TIEHASH
 {
     my $class = shift;
     my %options = @_ == 1 ? %{$_[0]} : @_;
-    %options = (Tie::Number::Formatted->defaults, %defaults);
-    bless [ {}, \%options ], $class;
+    %options = (Tie::Number::Formatted->defaults, %options);
+    my %excludes;
+    @excludes{@{$options{exclude}}} = undef if ref $options{exclude} eq 'ARRAY';
+    bless [ {}, \%options, \%excludes ], $class;
 }
 
 sub STORE
 {
     my $self = shift;
     my ($key, $value) = @_;
-    $self->[0]{$key} = $self->format($value);
+    $value = $self->format($value) unless exists $self->[2]{$key};
+    $self->[0]{$key} = $value;
 }
 
 =head1 AUTHOR
