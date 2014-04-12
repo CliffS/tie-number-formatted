@@ -108,7 +108,9 @@ Copyright 2014 Cliff Stanford.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
-\n***\n
+
+***
+
 # NAME
 
 Tie::Array::Formatted - An array of self-formatting numbers
@@ -173,7 +175,8 @@ Copyright 2014 Cliff Stanford.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
-\n***\n
+
+***
 
 # NAME
 
