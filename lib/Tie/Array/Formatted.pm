@@ -16,7 +16,7 @@ use enum qw{ false true };
 
 =head1 NAME
 
-Tie::Number::Formatted - An array of self-formatting numbers
+Tie::Array::Formatted - An array of self-formatting numbers
 
 =head1 VERSION
 

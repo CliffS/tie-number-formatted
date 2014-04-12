@@ -90,7 +90,7 @@ LICENSE AND COPYRIGHT
 ---------------------------------------------------------------------------
 
 NAME
-    Tie::Number::Formatted - An array of self-formatting numbers
+    Tie::Array::Formatted - An array of self-formatting numbers
 
 VERSION
     Version 0.0.1
