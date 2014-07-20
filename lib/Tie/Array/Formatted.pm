@@ -5,7 +5,7 @@ use strict;
 use warnings FATAL => 'all';
 use utf8;
 
-use version 0.77; our $VERSION = qv('v0.1.0');
+use version 0.77; our $VERSION = qv('v0.1.1');
 
 use Scalar::Util qw(looks_like_number);
 
@@ -20,7 +20,7 @@ Tie::Array::Formatted - An array of self-formatting numbers
 
 =head1 VERSION
 
-Version 0.1.0
+Version 0.1.1
 
 =cut
 
