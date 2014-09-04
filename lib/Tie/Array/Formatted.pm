@@ -76,7 +76,7 @@ sub TIEARRAY
 {
     my $class = shift;
     my %options = @_ == 1 ? %{$_[0]} : @_;
-    %options = (Tie::Number::Formatted->defaults, %defaults);
+    %options = (Tie::Number::Formatted->defaults, %options);
     my $self = {
 	array => [],
 	options => \%options,
