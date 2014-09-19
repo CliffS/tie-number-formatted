@@ -18,6 +18,8 @@ use Carp;
 
 use enum qw{ false true };
 
+=encoding utf8
+
 =head1 NAME
 
 Tie::Hash::Formatted - A hash containing self-formatting numbers

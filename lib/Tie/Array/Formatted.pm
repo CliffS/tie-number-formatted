@@ -14,6 +14,8 @@ use Carp;
 
 use enum qw{ false true };
 
+=encoding utf8
+
 =head1 NAME
 
 Tie::Array::Formatted - An array of self-formatting numbers
