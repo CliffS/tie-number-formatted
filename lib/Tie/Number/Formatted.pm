@@ -151,7 +151,7 @@ sub FETCH
 sub STORE
 {
     my $self = shift;
-    my $val = shift;
+    my $val = shift // '';
     carp qq(Argument "$val" isn't numeric) unless looks_like_number $val;
     no warnings 'numeric';
     $self->{value} = $val + 0;
