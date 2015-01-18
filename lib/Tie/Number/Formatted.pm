@@ -5,7 +5,7 @@ use strict;
 use warnings FATAL => 'all';
 use utf8;
 
-use version 0.77; our $VERSION = qv('v0.2.1');
+use version 0.77; our $VERSION = qv('v0.2.2');
 
 use Scalar::Util qw(looks_like_number);
 
@@ -31,7 +31,7 @@ Tie::Number::Formatted - Numbers that stringify formatted
 
 =head1 VERSION
 
-Version 0.2.1
+Version 0.2.2
 
 =cut
 
