@@ -5,11 +5,11 @@ use strict;
 use warnings FATAL => 'all';
 use utf8;
 
-use version 0.77; our $VERSION = qv('v0.1.1');
+use version 0.77; our $VERSION = qv('v0.2.1');
 
 use Scalar::Util qw(looks_like_number);
 
-use Number::Format;
+use Number::Format::FixedLocale;
 #use Data::Dumper;
 use Carp;
 
@@ -31,7 +31,7 @@ Tie::Number::Formatted - Numbers that stringify formatted
 
 =head1 VERSION
 
-Version 0.1.1
+Version 0.2.1
 
 =cut
 
@@ -167,10 +167,11 @@ sub stringify
 {
     my $self = shift;
     my $val = $self->{value};
-    my $format = new Number::Format(
+    my $format = new Number::Format::FixedLocale(
 	p_sep_by_space => 0,
 	n_sep_by_space => 0,
     );
+    return '' unless $self->{value};
     return $format->format_price(
 	abs $self->{value},
 	$self->{options}{precision},
